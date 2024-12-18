@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Loader from "./Loader";
-import { useToast } from "../hooks/use-toast";
+import { toast } from "react-toastify";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const [postInputs, setPostInputs] = useState({
@@ -12,7 +12,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     email: "",
     password: "",
   });
-  const { toast } = useToast()
+
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,10 +26,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       );
       const jwt = response.data;
       localStorage.setItem("token", JSON.stringify(jwt));
-      toast({
-        title: "Login succesFullll",
-        description: "Friday, February 10, 2023 at 5:57 PM",
-      })
+      toast( "Login succesFullll")
       navigate("/blog");
     } catch (e) {
       console.log(e);
