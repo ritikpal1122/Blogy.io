@@ -99,8 +99,6 @@ blogRouter.get("/bulk", async (c) => {
 
 blogRouter.get("/:id", async (c) => {
   const id = c.req.param("id");
-  console.log(id);
-
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());

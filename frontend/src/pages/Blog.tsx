@@ -1,33 +1,26 @@
 import { useParams } from "react-router-dom";
-import { BlogSkeleton } from "../components/BlogSkeleton";
 import { useBlog } from "../hooks";
 import { Appbar } from "../components/Appbar";
 import { FullBlog } from "../components/FullBlog";
+import Loader from "../components/Loader";
 
 export default function Blog() {
-    const { id } = useParams();
-    const { loading, blog } = useBlog({ id: id || "" });
-    console.log(blog);
+  const { id } = useParams();
 
-    if (loading) {
-        return (
-            <div>
-                <Appbar />
-                <BlogSkeleton />
-                <BlogSkeleton />
-                <BlogSkeleton />
-                <BlogSkeleton />
-            </div>
-        );
-    }
+  const { loading, blog } = useBlog({ id: id || "" });
 
-    if (!blog) {
-        return <div>No blog found</div>; // or any other error handling mechanism
-    }
-
+  if (loading) {
     return (
-        <div>
-            <FullBlog userBLog={blog} />
+      <div>
+        <Appbar />
+        <div className="flex justify-center items-center">
+          <Loader />
         </div>
+      </div>
     );
-} 
+  }
+
+  return (
+    <div>{blog ? <FullBlog blog={blog} /> : <div>No blog found</div>}</div>
+  );
+}

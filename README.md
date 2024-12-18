@@ -127,6 +127,3 @@ Blogy.io is open-source software licensed under the MIT License. See the LICENSE
 - **Tailwind CSS**: For enabling responsive designs effortlessly.
 - **Prisma**: For simplifying database interactions.
 - **Cloudflare**: For fast and secure deployment.
-
-
-

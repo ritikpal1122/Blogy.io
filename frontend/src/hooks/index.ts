@@ -1,73 +1,84 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { BACKEND_URL } from "../config"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { BACKEND_URL } from "../config";
 
-export interface Blog{
-    content: string,
-    title: string,
-    id: string,
+// Interface for a single blog
+export interface Blog {
+    content: string;
+    title: string;
+    id: string;
     author: {
-        name: string
-    }
+        name: string;
+    };
 }
 
-export const useBlog = ({id} : {id : string}) =>{
-    const [loading, setLoading] = useState(true)
-    const [blog, setBlog] = useState<Blog>()
-    const tokenString = localStorage.getItem("token");
-    let jwtToken = null;
+// Hook to fetch a single blog by ID
+export const useBlog = ({ id }: { id: string }) => {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [blog, setBlog] = useState<Blog | null>(null); // Nullable blog object
+    const [error, setError] = useState<string | null>(null);
 
-    // Check if the token exists and parse it
-    if (tokenString) {
-        const tokenObject = JSON.parse(tokenString);
-        jwtToken = tokenObject.jwt; // Extract the JWT token
-    }
+    // Retrieve JWT token from local storage
+    const tokenString = localStorage.getItem("token");
+    const jwtToken = tokenString ? JSON.parse(tokenString).jwt : null;
+
     useEffect(() => {
-        axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
-            headers : {
-                Authorization: jwtToken ? `${jwtToken}` : undefined 
-            }
-        })
-        .then(response => {
-            setBlog(response.data.blogs)
-            setLoading(false)
-        })
-    },[id])
+        axios
+            .get(`${BACKEND_URL}/api/v1/blog/${id}`, {
+                headers: {
+                    Authorization: jwtToken ? `${jwtToken}` : undefined,
+                },
+            })
+            .then((response) => {
+                setBlog(response.data); // Set the blog data
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Error fetching blog:", err);
+                setError("Failed to load the blog.");
+                setLoading(false);
+            });
+    }, [id]);
 
     return {
         loading,
-        blog
-    }
-}
+        blog,
+        error,
+    };
+};
 
-export const useBlogs = () =>{
-    const [loading, setLoading] = useState(true)
-    const [blogs, setBlogs] = useState([]);
+// Hook to fetch a list of blogs
+export const useBlogs = () => {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [blogs, setBlogs] = useState<Blog[]>([]); // Array of Blog objects
+    const [error, setError] = useState<string | null>(null);
 
+    // Retrieve JWT token from local storage
     const tokenString = localStorage.getItem("token");
-    let jwtToken = null;
-
-    // Check if the token exists and parse it
-    if (tokenString) {
-        const tokenObject = JSON.parse(tokenString);
-        jwtToken = tokenObject.jwt; // Extract the JWT token
-    }
-    console.log("Token in useBlogs:", jwtToken);
+    const jwtToken = tokenString ? JSON.parse(tokenString).jwt : null;
 
     useEffect(() => {
-        axios.get(`${BACKEND_URL}/api/v1/blog/bulk`,{
-            headers : {
-                Authorization: jwtToken ? `${jwtToken}` : undefined 
-            }
-        })
-        .then(response => {
-            setBlogs(response.data)
-            setLoading(false)
-        })
-    },[])
+        axios
+            .get(`${BACKEND_URL}/api/v1/blog/bulk`, {
+                headers: {
+                    Authorization: jwtToken ? `${jwtToken}` : undefined,
+                },
+            })
+            .then((response) => {
+                setBlogs(response.data.blog); // Set the blogs data
+               
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Error fetching blogs:", err);
+                setError("Failed to load blogs.");
+                setLoading(false);
+            });
+    }, []);
 
     return {
         loading,
-        blogs
-    }
-}
+        blogs,
+        error,
+    };
+};
