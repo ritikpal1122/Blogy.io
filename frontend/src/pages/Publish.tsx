@@ -4,9 +4,6 @@ import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
 import RichTextEditor from "./TextEditor";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 
 export const Publish = () => {
   const [title, setTitle] = useState("");
@@ -35,10 +32,6 @@ export const Publish = () => {
 
     const jsonObject = JSON.parse(AuthToken);
     const jwtValue = jsonObject.jwt;
-if (!AuthToken) {
-      toast.error("Please log in first."); // Show toast notification
-      return;
-    }
     try {
       setIsLoading(true); // Set loading state
       const response = await axios.post(
@@ -65,7 +58,6 @@ if (!AuthToken) {
   return (
     <div>
       <Appbar />
-      <ToastContainer />
       <div className="flex justify-center w-full pt-8">
         <div className="max-w-screen-lg w-full">
           {/* Title Input */}

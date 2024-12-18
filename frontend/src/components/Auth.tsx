@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Loader from "./Loader";
-import { toast } from "react-toastify";
+
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const [postInputs, setPostInputs] = useState({
@@ -26,7 +26,6 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       );
       const jwt = response.data;
       localStorage.setItem("token", JSON.stringify(jwt));
-      toast( "Login succesFullll")
       navigate("/blog");
     } catch (e) {
       console.log(e);
