@@ -22,7 +22,7 @@ function BlogCard({
                 <div className="font-extralight pl-2 text-sm flex justify-center flex-col">
                     {authorName}
                 </div>
-                <div className="flex justify-center flex-col pl-2 flex justify-center flex-col">
+                <div className="flex justify-center flex-col pl-2">
                     <Circle />
                 </div>
                 <div className="pl-2 font-thin text-slate-500 text-sm flex justify-center flex-col">
