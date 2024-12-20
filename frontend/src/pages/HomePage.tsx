@@ -7,12 +7,11 @@ import {
   GitlabIcon as GitHub,
   Mail,
 } from "lucide-react";
-import { useState } from "react";
+
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
 export default function HomePage() {
-  const [hoveredPost, setHoveredPost] = useState<number | null>(null);
 
   const posts = [
     {
@@ -96,8 +95,7 @@ export default function HomePage() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: post.id * 0.1 }}
               whileHover={{ y: -5 }}
-              onHoverStart={() => setHoveredPost(post.id)}
-              onHoverEnd={() => setHoveredPost(null)}
+    
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300"
             >
               <div className="p-6">
@@ -106,8 +104,8 @@ export default function HomePage() {
                 </h2>
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredPost === post.id ? 1 : 0 }}
+                  initial={{ opacity: 1 }}
+               
                   transition={{ duration: 0.2 }}
                 >
                   <Button asChild variant="link">
